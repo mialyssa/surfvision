@@ -75,101 +75,26 @@ void body_button(SharedVariable* sv) {
 
 // 2. Infrared Motion Sensor
 void body_motion(SharedVariable* sv) {
-    //while (1) {
+    while (1) {
         if (sv->runningState) {
             int motion = digitalRead(PIN_MOTION);
             sv->motionDetected = motion;
         }
-        //delay(100);
-    //}
-}
-
-// 3. Microphone Sound Sensor
-void body_sound(SharedVariable* sv) {
-    //while (1) {
-        if (sv->runningState && digitalRead(PIN_SOUND) == DETECT_SOUND) {
-            body_buzzer(sv);
-        }
-        //delay(100);
-    //}
-}
-
-// 4. Rotary Encoder
-void body_encoder(SharedVariable* sv) {
-    //while (1) {
-        if (sv->runningState) {
-            if (digitalRead(PIN_ROTARY_CLK) == LOW) {
-                sv->lastEncoderDirection = CLOCKWISE;
-            } else if (digitalRead(PIN_ROTARY_DT) == LOW) {
-                sv->lastEncoderDirection = COUNTER_CLOCKWISE;
-            }
-        }
-        //delay(50);
-    //}
-}
-
-// 5. DIP two-color LED
-void body_twocolor(SharedVariable* sv) {
-    if(sv->runningState) {
-        digitalWrite(PIN_DIP_RED, HIGH);
-        digitalWrite(PIN_DIP_GRN, LOW);
-    } else {
-        digitalWrite(PIN_DIP_RED, LOW);
-        digitalWrite(PIN_DIP_GRN, HIGH);
+        delay(100);
     }
 }
 
-// 6. SMD RGB LED
-void body_rgbcolor(SharedVariable* sv) {
-    //while (1) {
-        if (sv->runningState) {
-            if (sv->lastEncoderDirection == CLOCKWISE) {
-                if(sv->motionDetected){
-                    softPwmWrite(PIN_SMD_RED, 128);
-                    softPwmWrite(PIN_SMD_GRN, 255);
-                    softPwmWrite(PIN_SMD_BLU, 0);
-                } else {
-                    softPwmWrite(PIN_SMD_RED, 255);
-                    softPwmWrite(PIN_SMD_GRN, 0);
-                    softPwmWrite(PIN_SMD_BLU, 0);
-                }
-            } else {
-                if(sv->motionDetected){
-                    softPwmWrite(PIN_SMD_RED, 0);
-                    softPwmWrite(PIN_SMD_GRN, 255);
-                    softPwmWrite(PIN_SMD_BLU, 255);
-                } else {
-                    softPwmWrite(PIN_SMD_RED, 238);
-                    softPwmWrite(PIN_SMD_GRN, 0);
-                    softPwmWrite(PIN_SMD_BLU, 200);
-                }
-            }
-        } else {
-            softPwmWrite(PIN_SMD_RED, 0);
-            softPwmWrite(PIN_SMD_GRN, 0);
-            softPwmWrite(PIN_SMD_BLU, 0);
-        }
-        //delay(100);
-    //}
+// 3. Servo Motor
+void body_servo(SharedVariable* sv){
+
 }
 
-// 7. Auto-flash LED
-void body_aled(SharedVariable* sv) {
-    //while (1) {
-        if (sv->runningState) {
-            digitalWrite(PIN_ALED, HIGH);
-        } else {
-            digitalWrite(PIN_ALED, LOW);
-        }
-        //delay(100);
-    //}
+// 4. Stepper Motor
+void body_stepper(SharedVariable* sv){
+    // Insert code
 }
 
-// 8. Buzzer
-void body_buzzer(SharedVariable* sv) {
-    if(sv->runningState){
-        digitalWrite(PIN_BUZZER, HIGH);
-        //delay(300);
-        digitalWrite(PIN_BUZZER, LOW);
-    }
+// 5. Camera Signal
+void body_camera(SharedVariable* sv){
+    // Insert code
 }
