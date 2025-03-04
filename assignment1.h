@@ -25,25 +25,27 @@
 #define NO_SOUND 0
 
 // A. Pin number definitions (SURFVISION)
-// We use 8 sensors.
 //
-// 0. Button
+// 1. Button
 #define PIN_BUTTON 0
 
-// 1. Camera Signal
-#define CAMERA_SIGNAL 3
+// 2. Camera Signal
+#define PIN_CAMERA 3
 
-// 2. Infrared motion sensor
+// 3. Infrared motion sensor
 #define PIN_MOTION 4
 
-// 3. Tilt ball switch sensor
+// 4. Tilt ball switch sensor
 #define PIN_TILTBALL 5
 
-// 4. Servo Motor 
+// 5. Servo Motor 
 #define PIN_SERVO 6
 
-// 5. Stepper Motor
+// 6. Stepper Motor
 #define PIN_STEPPER 27
+
+// 7. ALED Actuator
+#define PIN_ALED 27
 
 // B. Shared structure
 // All thread functions get a shared variable of the structure
@@ -60,9 +62,11 @@ typedef struct shared_variable {
 void init_shared_variable(SharedVariable* sv);
 void init_sensors(SharedVariable* sv);
 void body_button(SharedVariable* sv);     // Button
+void body_camera(SharedVariable* sv);     // Camera Signal
 void body_motion(SharedVariable* sv);     // Infrared motion sensor
+void body_tiltball(SharedVariable* sv);     // Tiltball sensor
 void body_servo(SharedVariable* sv);      // Servo Motor
 void body_stepper(SharedVariable* sv);    // Stepper Motor
-void body_camera(SharedVariable* sv);     // Camera Signal
+void body_aled(SharedVariable* sv);       // ALED Actuator
 
 #endif
