@@ -10,6 +10,7 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include "assignment1.h"
+//#include "tempmotor.h"
 
 // Thread declaration macros
 #define thread_decl(NAME) \
@@ -20,13 +21,12 @@ void* thread_##NAME(void* param) { \
 
 // Declare threads for each sensor/actuator function
 thread_decl(button)
+thread_decl(camera)
 thread_decl(motion)
-thread_decl(sound)
-thread_decl(encoder)
-thread_decl(twocolor)
-thread_decl(rgbcolor)
+thread_decl(tiltball)
+thread_decl(servo)
+thread_decl(stepper)
 thread_decl(aled)
-thread_decl(buzzer)
 
 // Thread creation and joining macros
 #define thread_create(NAME) pthread_create(&t_##NAME, NULL, thread_##NAME, &v);
@@ -48,35 +48,32 @@ int main(int argc, char* argv[]) {
 
 	// Thread identifiers
 	pthread_t t_button,
+			  t_camera,
 			  t_motion,
-			  t_sound,
-			  t_encoder,
-			  t_twocolor,
-			  t_rgbcolor,
-			  t_aled,
-			  t_buzzer;
+			  t_tiltball,
+			  t_servo,
+			  t_stepper,
+			  t_aled;
 
 	// Main program loop
 	while (v.bProgramExit != 1) {
 		// Create sensing threads
 		thread_create(button);
+		thread_create(camera);
 		thread_create(motion);
-		thread_create(sound);
-		thread_create(encoder);
-		thread_create(twocolor);
-		thread_create(rgbcolor);
+		thread_create(tiltball);
+		thread_create(servo);
+		thread_create(stepper);
 		thread_create(aled);
-		thread_create(buzzer);
 
 		// Wait for all threads to finish
 		thread_join(button);
+		thread_join(camera);
 		thread_join(motion);
-		thread_join(sound);
-		thread_join(encoder);
-		thread_join(twocolor);
-		thread_join(rgbcolor);
+		thread_join(tiltball);
+		thread_join(servo);
+		thread_join(stepper);
 		thread_join(aled);
-		thread_join(buzzer);
 
 		// Add a slight delay between iterations
 		delay(10);
