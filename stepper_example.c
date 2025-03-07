@@ -1,3 +1,6 @@
+// gcc -o stepper_example stepper_example.c -lwiringPi
+// sudo ./stepper_example
+
 #include <wiringPi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +11,8 @@
 #define STEP_DELAY (60000000 / (STEPS_PER_REVOLUTION * REVOLUTIONS_PER_MINUTE))
 
 // Define the GPIO pins connected to the stepper motor driver
-int motorPins[4] = {0, 2, 3, 1}; // WiringPi pin numbering for GPIO 17, 27, 22, 18
+//int motorPins[4] = {0, 2, 3, 1}; // WiringPi pin numbering for GPIO 17, 27, 22, 18
+int motorPins[4] = {21, 22, 23, 24}; // WiringPi pin numbering for GPIO 21, 22, 23, 24,
 
 // Stepper motor sequence for 28BYJ-48 (half-step mode)
 int stepSequence[8][4] = {

@@ -30,6 +30,7 @@ void init_sensors(SharedVariable* sv) {
 
 // 1. Button
 void body_button(SharedVariable* sv) {
+    printf("Yob\n");
     //while (1) {
         if (digitalRead(PIN_BUTTON) == LOW) { // Button pressed
             sv->runningState = !sv->runningState;
@@ -47,10 +48,12 @@ void body_button(SharedVariable* sv) {
 // 2. Camera Signal
 void body_camera(SharedVariable* sv){
     // Insert code
+    printf("Yoa\n");
 }
 
 // 3. Infrared Motion Sensor
 void body_motion(SharedVariable* sv) {
+    printf("Yoc\n");
     while (1) {
         if (sv->runningState) {
             int motion = digitalRead(PIN_MOTION);
@@ -62,31 +65,34 @@ void body_motion(SharedVariable* sv) {
 
 // 4. Tiltball Sensor
 void body_tiltball(SharedVariable* sv){
+    printf("Yod\n");
     // Insert code
     while (1) {
         int state = digitalRead(PIN_TILTBALL);
         
-        if (state == LOW) {     // Tilted
-            printf("TILTED");
-        } else {                // Steady State
-            //printf("NO TILT\n");
+        if (state == HIGH) {    // Tilted, open circuit
+            printf("Tilt detected!\n");
+        } else {    // No Tilt, closed circuit
+            printf("No tilt detected.\n");
         }
         
-        delay(500);
+        delay(500);  // Delay to reduce CPU usage
     }
 }
 
 // 5. Servo Motor
 void body_servo(SharedVariable* sv){
-
+    printf("Yoe\n");
 }
 
 // 6. Stepper Motor
 void body_stepper(SharedVariable* sv){
     // Insert code
+    printf("Yof\n");
 }
 
 // 7. ALED Sensor
 void body_aled(SharedVariable* sv){
+    printf("Yog\n");
     // Insert code
 }

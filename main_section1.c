@@ -35,7 +35,7 @@ thread_decl(aled)
 int main(int argc, char* argv[]) {
 	// Initialize shared variable
 	SharedVariable v;
-
+	
 	// Initialize WiringPi library
 	if (wiringPiSetup() == -1) {
 		printf("Failed to setup wiringPi.\n");

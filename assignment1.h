@@ -45,7 +45,7 @@
 #define PIN_STEPPER 27
 
 // 7. ALED Actuator
-#define PIN_ALED 27
+#define PIN_ALED 12
 
 // B. Shared structure
 // All thread functions get a shared variable of the structure
