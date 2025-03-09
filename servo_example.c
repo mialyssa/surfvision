@@ -1,42 +1,94 @@
-#include <wiringPi.h>
+
 #include <stdio.h>
-#include <unistd.h>
+#include <wiringPi.h>
+#include <softPwm.h>
+#include <stdint.h>
 
-#define SERVO_PIN 6  // GPIO6 (WiringPi pin 6)
-#define MIN_PULSE 50  // Adjust based on your servo (0-degree position)
-#define MAX_PULSE 250 // Adjust based on your servo (180-degree position)
-#define DELAY 500000  // Delay in microseconds (0.5 sec)
+// Macros
+#define READ(pin) digitalRead(pin)
+#define WRITE(pin, x) digitalWrite(pin, x)
 
-void setServoAngle(int angle) {
-    int pulseWidth = MIN_PULSE + (angle * (MAX_PULSE - MIN_PULSE) / 180);
-    pwmWrite(SERVO_PIN, pulseWidth);
-    usleep(DELAY);  // Give servo time to move
+#define LOW 0
+#define HIGH 1
+
+typedef struct shared_variable {
+    int bProgramExit; // Once set to 1, the program will terminate.
+    // You can add more variables if needed.
+    int runningState;
+    int motionDetected;
+} SharedVariable;
+
+
+#define SERVO_PIN 14 // BCM GPIO 18 (or your chosen pin)
+
+#define DEGREEUP 1800, 1800
+#define DEGREE0 2100, 2200
+#define DEGREEDOWN 2400, 2800
+
+unsigned long elapsedTime = 0;
+int frequency = 0;
+int period = 0;
+unsigned long startTime = 0;
+int angles[2] = {2100, 2200}; // Neutral
+
+void degreeUp(int amt){
+    // 1800 1800
+    for(int i=0; i < 100; i++){
+        WRITE(SERVO_PIN, HIGH);
+        angles[0] -= 300;
+        printf("UP angles[0] = %d\n", angles[0]);
+        delayMicroseconds(angles[0]);
+
+        WRITE(SERVO_PIN, LOW);
+        angles[1] -= 300;
+        printf("UP angles[1] = %d\n", angles[1]);
+        delayMicroseconds(angles[1]); 
+
+    }
+}
+
+void degreeNeutral(){
+    // 2100, 2200
+        WRITE(SERVO_PIN, HIGH);
+        delayMicroseconds(2100);
+        printf("ZERO angles[0] = %d\n", angles[0]);
+        
+        WRITE(SERVO_PIN, LOW);
+        delayMicroseconds(2200); 
+        printf("ZERO angles[1] = %d\n", angles[1]);
+}
+
+void degreeDown(int amt){
+    // 2400 2300
+    //for(int i=0; i < 100; i++){
+        WRITE(SERVO_PIN, HIGH);
+        angles[0] += 300;
+        delayMicroseconds(angles[0]);
+        printf("DOWN angles[0] = %d\n", angles[0]);
+
+        WRITE(SERVO_PIN, LOW);
+        angles[1] += 300;
+        delayMicroseconds(angles[1]);    
+        printf("DOWN angles[1] = %d\n", angles[1]);
+    //}
 }
 
 int main() {
-    if (wiringPiSetup() == -1) {
-        printf("WiringPi setup failed!\n");
-        return 1;
-    }
+    wiringPiSetupGpio(); // Initialize WiringPi
+ 
+    pinMode(SERVO_PIN, OUTPUT); // Set the GPIO pin as PWM output
+    
+    degreeNeutral();
 
-    pinMode(SERVO_PIN, PWM_OUTPUT);
-    pwmSetMode(PWM_MODE_MS);
-    pwmSetClock(192);  // Set clock divider (adjust if necessary)
-    pwmSetRange(2000); // Set range (adjust based on servo requirements)
+    delayMicroseconds(2000);
+    degreeUp(1);
+    printf("yo");
 
-    while (1) {
-        printf("Moving to 0 degrees\n");
-        setServoAngle(0);
-        sleep(1);
-
-        printf("Moving to 90 degrees\n");
-        setServoAngle(90);
-        sleep(1);
-
-        printf("Moving to 180 degrees\n");
-        setServoAngle(180);
-        sleep(1);
-    }
-
-    return 0;
-}
+    delayMicroseconds(2000);
+    degreeDown(2);
+ 
+    printf("done\n");
+ 
+ }
+ 
+ 
