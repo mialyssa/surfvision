@@ -25,10 +25,8 @@ typedef struct shared_variable {
 #define DEGREE0 2100, 2200
 #define DEGREEDOWN 2400, 2800
 
-unsigned long elapsedTime = 0;
 int frequency = 0;
 int period = 0;
-unsigned long startTime = 0;
 int angles[2] = {2100, 2200}; // Neutral
 
 void degreeUp(int amt){
@@ -37,16 +35,15 @@ void degreeUp(int amt){
     for(int j = 0; j < amt; j++){
         angles[0] -= 200;
         angles[1] -= 300;
+
         for(int i=0; i < 200; i++){
             WRITE(SERVO_PIN, HIGH);
-
-            //printf("UP angles[0] = %d\n", angles[0]);
             delayMicroseconds(angles[0]);
+            //printf("UP angles[0] = %d\n", angles[0]);
 
             WRITE(SERVO_PIN, LOW);
-
-            //printf("UP angles[1] = %d\n", angles[1]);
             delayMicroseconds(angles[1]); 
+            //printf("UP angles[1] = %d\n", angles[1]);
 
         }
     }
@@ -54,21 +51,21 @@ void degreeUp(int amt){
 
 void degreeNeutral(){
     // 2100, 2200
-        for(int i=0; i < 200; i++){
-            WRITE(SERVO_PIN, HIGH);
-            delayMicroseconds(2100);
-            //printf("ZERO angles[0] = %d\n", angles[0]);
-            
-            WRITE(SERVO_PIN, LOW);
-            delayMicroseconds(2200); 
-            //printf("ZERO angles[1] = %d\n", angles[1]);
-        }
+
+    for(int i=0; i < 200; i++){
+        WRITE(SERVO_PIN, HIGH);
+        delayMicroseconds(2100);
+        //printf("ZERO angles[0] = %d\n", angles[0]);
+        
+        WRITE(SERVO_PIN, LOW);
+        delayMicroseconds(2200); 
+        //printf("ZERO angles[1] = %d\n", angles[1]);
+    }
 }
 
 void degreeDown(int amt){
     // 2400 2300
-    
-    
+
     for(int j = 0; j < amt; j++){
         angles[0] += 200;
         angles[1] += 300;
@@ -94,11 +91,10 @@ int main() {
     degreeNeutral();
 
     delayMicroseconds(2000);
-    degreeUp(1);
-    printf("yo");
+    degreeUp(2);
 
     delayMicroseconds(2000);
-    degreeDown(2);
+    degreeDown(3);
 
     degreeNeutral();
  
